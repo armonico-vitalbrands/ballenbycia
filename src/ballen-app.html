@@ -43,20 +43,20 @@
           Ballen B. & Cía S.A.S.
         </a>
         <ibm-tabs selected="[[index]]">
-          <a href="/blog" tabindex="-1">
-            <ibm-tab>Blog Vital</ibm-tab>
-          </a>
-          <a href="/projects" tabindex="-1">
-            <ibm-tab>Proyectos</ibm-tab>
-          </a>
           <a href="/services" tabindex="-1">
-            <ibm-tab>Servicios</ibm-tab>
+            <ibm-tab>SERVICIOS</ibm-tab>
           </a>
           <a href="/about" tabindex="-1">
-            <ibm-tab>Nosotros</ibm-tab>
+            <ibm-tab>NOSOTROS</ibm-tab>
           </a>
-          <a href="/contact" tabindex="-1">
-            <ibm-tab>Contácto</ibm-tab>
+          <a href="/news" tabindex="-1">
+            <ibm-tab>NOTICIAS</ibm-tab>
+          </a>
+          <a href="/announcement" tabindex="-1">
+            <ibm-tab>CONVOCATORIAS</ibm-tab>
+          </a>
+          <a href="/pricing" tabindex="-1">
+            <ibm-tab>COTIZAR</ibm-tab>
           </a>
         </ibm-tabs>
       </ibm-toolbar>
@@ -68,11 +68,11 @@
           fallback-selection="404"
           role="main">
         <view-home name="home"></view-home>
-        <view-blog name="blog"></view-blog>
-        <view-projects name="projects"></view-projects>
         <view-services name="services"></view-services>
         <view-about name="about"></view-about>
-        <view-contact name="contact"></view-contact>
+        <view-news name="news"></view-news>
+        <view-announcement name="announcement"></view-announcement>
+        <view-pricing name="pricing"></view-pricing>
         <view-404 name="404"></view-404>
       </iron-pages>
     </div>
@@ -101,11 +101,11 @@
 
       _routePageChanged: function(page) {
         var indexes = {
-          blog: 0,
-          projects: 1,
-          services: 2,
-          about: 3,
-          contact: 4,
+          services: 0,
+          about: 1,
+          news: 2,
+          announcement: 3,
+          pricing: 4,
           home: -1,
         };
         this.page = page || 'home';
