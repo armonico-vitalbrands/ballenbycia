@@ -1,0 +1,126 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/ibm-toolbar/ibm-toolbar.html">
+<link rel="import" href="../bower_components/ibm-tabs/ibm-tabs.html">
+<link rel="import" href="../bower_components/ibm-tabs/ibm-tab.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="view-icons.html">
+
+<dom-module id="ballen-app">
+  <template>
+    <style>
+      :host {
+        --app-primary-color: #FCD700;
+        --app-secondary-color: #415967;
+      }
+
+      ibm-tab {
+        --ibm-tab-color-focused: var(--app-primary-color);
+      }
+
+      ibm-tab:hover {
+        color: black;
+      }
+
+      #main-border {
+        // border: 10px solid;
+      }
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+    <div id="main-border">
+      <!-- Toolbar -->
+      <ibm-toolbar>
+        <a href="/home" main-title>
+          Ballen B. & Cía S.A.S.
+        </a>
+        <ibm-tabs selected="[[index]]">
+          <a href="/blog" tabindex="-1">
+            <ibm-tab>Blog Vital</ibm-tab>
+          </a>
+          <a href="/projects" tabindex="-1">
+            <ibm-tab>Proyectos</ibm-tab>
+          </a>
+          <a href="/services" tabindex="-1">
+            <ibm-tab>Servicios</ibm-tab>
+          </a>
+          <a href="/about" tabindex="-1">
+            <ibm-tab>Nosotros</ibm-tab>
+          </a>
+          <a href="/contact" tabindex="-1">
+            <ibm-tab>Contácto</ibm-tab>
+          </a>
+        </ibm-tabs>
+      </ibm-toolbar>
+
+      <!-- Content render -->
+      <iron-pages
+          selected="[[page]]"
+          attr-for-selected="name"
+          fallback-selection="404"
+          role="main">
+        <view-home name="home"></view-home>
+        <view-blog name="blog"></view-blog>
+        <view-projects name="projects"></view-projects>
+        <view-services name="services"></view-services>
+        <view-about name="about"></view-about>
+        <view-contact name="contact"></view-contact>
+        <view-404 name="404"></view-404>
+      </iron-pages>
+    </div>
+    <footer>
+    </footer>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ballen-app',
+
+      properties: {
+        page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged',
+        },
+        index: {
+          type: Number,
+        },
+      },
+
+      observers: [
+        '_routePageChanged(routeData.page)',
+      ],
+
+      _routePageChanged: function(page) {
+        var indexes = {
+          blog: 0,
+          projects: 1,
+          services: 2,
+          about: 3,
+          contact: 4,
+          home: -1,
+        };
+        this.page = page || 'home';
+        this.index = indexes[page];
+      },
+
+      _pageChanged: function(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('view-' + page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+      },
+
+      _showPage404: function() {
+        this.page = '404';
+      },
+    });
+  </script>
+</dom-module>
